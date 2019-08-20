@@ -1,18 +1,12 @@
 /* List Pagination and Filtering */
 
 const listItems = document.querySelectorAll('li')
-
-
 const listItemsOnPage = ''
 
-
-
-
 /*
-   Hides all of the items in the list and shows ten of them
-   Returns list of students .
+Hides all of the items in the list and displays ten of them
+Returns list of students .
 */
-
 const showPage = (list, page) => {
    for (let i=0; i<list.length; i++) {
       list[i].style.display = 'none'
@@ -29,10 +23,7 @@ const showPage = (list, page) => {
 return studentsList
 }
 
-//console.log(showPage(listItems, 2))
-/*
-Generates and appends pagination buttons, with functionality
-*/
+/* Generates and appends pagination buttons with functionality */
 const appendPageLinks = (list) => {
    const pageTotal = Math.ceil(list.length / 10)
    const mainDiv = document.querySelector('.page')
@@ -67,8 +58,13 @@ const appendPageLinks = (list) => {
          showPage(list, pageNumberRequest)
       }
    })
-
 }
+
+/*
+Searchs for students and displays results on the page.
+If no students are found, a message is displayed on the page.
+Takes string, which is the search phrase as an argument.
+*/
 
 const searchStudent = (request) => {
    const studentNames = document.querySelectorAll('ul.student-list > li')
@@ -84,24 +80,30 @@ const searchStudent = (request) => {
 
       if (studentName.includes(request)) {
          studentsFound.push(studentNames[i])
-         //studentNames[i].style.display = 'block'
-
-         //studentNames[i].style.display = 'block'
-      } /*else {
-         studentNames[i].parentElement.parentElement.style.display = 'none'
-      } */
-      //deletes all page links
-      //appendPageLinks(studentsFound)
+      }
    }
-   showPage(studentsFound, 1)
-   const divRemove = document.querySelector('div.pagination')
-   //deletes div with all page links
-   divRemove.remove()
-   //divRemove.parentNode.removeChild()
-   appendPageLinks(studentsFound)
 
+   const noResultsMessage = document.createElement('p')
+   noResultsMessage.textContent = 'no results'
+   const divRemove = document.querySelector('div.pagination')
+   const divContainer = document.querySelector('div.page-header')
+   const lastElement = divContainer.lastElementChild
+   if (studentsFound.length > 0) {
+      //Displays found students
+      showPage(studentsFound, 1)
+      //deletes div with all page links
+      divRemove.remove()
+      appendPageLinks(studentsFound)
+      divContainer.removeChild()
+   } else {
+      //Displays message when no students was found
+      divRemove.remove()
+      appendPageLinks(studentsFound)
+   }
 }
 
+
+/* Displays search input */
 const showSearchInput = () => {
    const containerDiv = document.querySelector('.page-header')
    const studentSearchDiv = document.createElement('div')
@@ -115,7 +117,6 @@ const showSearchInput = () => {
    studentSearchDiv.appendChild(studentSearchInput)
    studentSearchDiv.appendChild(studentSearchButton)
 
-
    studentSearchButton.addEventListener('click', (e) => {
       if (e.target.textContent === 'Search') {
          searchStudent(studentSearchInput.value)
@@ -123,14 +124,10 @@ const showSearchInput = () => {
       }
    })
 
-
    studentSearchInput.addEventListener('keyup', () => {
          searchStudent(studentSearchInput.value)
    })
-
 }
-
-
 
 showPage(listItems, 1)
 appendPageLinks(listItems)
