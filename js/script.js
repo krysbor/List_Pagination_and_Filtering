@@ -1,5 +1,17 @@
 /*
 List Pagination and Filtering
+
+<body>
+    <div class="page">
+      <div class="page-header cf">
+        <h2>Students</h2>
+
+        <!-- student search HTML to add dynamically -->
+        <div class="student-search">
+          <input placeholder="Search for students...">
+          <button>Search</button>
+        </div>
+        <!-- end search -->
 */
 
 const listItems = document.querySelectorAll('li')
@@ -73,8 +85,23 @@ const appendPageLinks = (list) => {
 
 }
 
+const showSearchInput = () => {
+   const containerDiv = document.querySelector('.page-header')
+   const studentSearchDiv = document.createElement('div')
+   studentSearchDiv.className = 'student-search'
+   const studentSearchInput = document.createElement('input')
+   studentSearchInput.placeholder = 'Search for students...'
+   const studentSearchButton = document.createElement('button')
+   studentSearchButton.textContent = 'Search'
+
+   containerDiv.appendChild(studentSearchDiv)
+   studentSearchDiv.appendChild(studentSearchInput)
+   studentSearchDiv.appendChild(studentSearchButton)
+}
+
 showPage(listItems, 1)
 appendPageLinks(listItems)
+showSearchInput()
 
 
 
