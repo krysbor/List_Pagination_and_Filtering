@@ -1,18 +1,4 @@
-/*
-List Pagination and Filtering
-
-<body>
-    <div class="page">
-      <div class="page-header cf">
-        <h2>Students</h2>
-
-        <!-- student search HTML to add dynamically -->
-        <div class="student-search">
-          <input placeholder="Search for students...">
-          <button>Search</button>
-        </div>
-        <!-- end search -->
-*/
+/* List Pagination and Filtering */
 
 const listItems = document.querySelectorAll('li')
 
@@ -23,7 +9,8 @@ const listItemsOnPage = ''
 
 
 /*
-   Hides all of the items in the list and shows ten of them .
+   Hides all of the items in the list and shows ten of them
+   Returns list of students .
 */
 
 const showPage = (list, page) => {
@@ -35,7 +22,6 @@ const showPage = (list, page) => {
    const studentsList = []
    for (let i=0; i<list.length; i++) {
       if (i >= startIndex && i < endIndex) {
-         console.log(list[i])
          list[i].style.display = 'block'
          studentsList.push(list[i])
       }
@@ -48,7 +34,6 @@ return studentsList
 Generates and appends pagination buttons, with functionality
 */
 const appendPageLinks = (list) => {
-   console.log('ok')
    const pageTotal = Math.ceil(list.length / 10)
    const mainDiv = document.querySelector('.page')
    const containerDiv = document.createElement('div')
@@ -79,7 +64,7 @@ const appendPageLinks = (list) => {
          }
          const pageNumberRequest = e.target.textContent
          e.target.className = 'active'
-         showPage(listItems, pageNumberRequest)
+         showPage(list, pageNumberRequest)
       }
    })
 
@@ -96,17 +81,24 @@ const searchStudent = (request) => {
       let imgTag = divTag.firstElementChild
       let h3Tag = imgTag.nextElementSibling
       let studentName = h3Tag.textContent
+
       if (studentName.includes(request)) {
          studentsFound.push(studentNames[i])
-         studentNames[i].style.display = 'block'
+         //studentNames[i].style.display = 'block'
+
          //studentNames[i].style.display = 'block'
       } /*else {
          studentNames[i].parentElement.parentElement.style.display = 'none'
       } */
-
+      //deletes all page links
+      //appendPageLinks(studentsFound)
    }
-   console.log('founded')
-   console.log(studentsFound)
+   showPage(studentsFound, 1)
+   const divRemove = document.querySelector('div.pagination')
+   //deletes div with all page links
+   divRemove.remove()
+   //divRemove.parentNode.removeChild()
+   appendPageLinks(studentsFound)
 
 }
 
@@ -127,7 +119,13 @@ const showSearchInput = () => {
    studentSearchButton.addEventListener('click', (e) => {
       if (e.target.textContent === 'Search') {
          searchStudent(studentSearchInput.value)
+         studentSearchInput.value = ''
       }
+   })
+
+
+   studentSearchInput.addEventListener('keyup', () => {
+         searchStudent(studentSearchInput.value)
    })
 
 }
