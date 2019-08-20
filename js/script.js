@@ -85,6 +85,31 @@ const appendPageLinks = (list) => {
 
 }
 
+const searchStudent = (request) => {
+   const studentNames = document.querySelectorAll('ul.student-list > li')
+   const studentsFound = []
+   for (let i=0; i<studentNames.length; i++) {
+      //hides all students
+      studentNames[i].style.display = 'none'
+
+      let divTag = studentNames[i].firstElementChild
+      let imgTag = divTag.firstElementChild
+      let h3Tag = imgTag.nextElementSibling
+      let studentName = h3Tag.textContent
+      if (studentName.includes(request)) {
+         studentsFound.push(studentNames[i])
+         studentNames[i].style.display = 'block'
+         //studentNames[i].style.display = 'block'
+      } /*else {
+         studentNames[i].parentElement.parentElement.style.display = 'none'
+      } */
+
+   }
+   console.log('founded')
+   console.log(studentsFound)
+
+}
+
 const showSearchInput = () => {
    const containerDiv = document.querySelector('.page-header')
    const studentSearchDiv = document.createElement('div')
@@ -97,19 +122,18 @@ const showSearchInput = () => {
    containerDiv.appendChild(studentSearchDiv)
    studentSearchDiv.appendChild(studentSearchInput)
    studentSearchDiv.appendChild(studentSearchButton)
+
+
+   studentSearchButton.addEventListener('click', (e) => {
+      if (e.target.textContent === 'Search') {
+         searchStudent(studentSearchInput.value)
+      }
+   })
+
 }
+
+
 
 showPage(listItems, 1)
 appendPageLinks(listItems)
 showSearchInput()
-
-
-
-
-
-
-
-
-
-
-
