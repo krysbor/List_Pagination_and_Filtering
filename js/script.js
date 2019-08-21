@@ -4,7 +4,9 @@ const listItems = document.querySelectorAll('li')
 const listItemsOnPage = ''
 
 /*
-Hides all of the items in the list and displays ten of them
+Hides all of the items in the list and displays ten or less of them
+depending on the quantity on the page.
+Takes array of html elements and page number as an arguments
 Returns list of students .
 */
 const showPage = (list, page) => {
@@ -23,7 +25,9 @@ const showPage = (list, page) => {
 return studentsList
 }
 
-/* Generates and appends pagination buttons with functionality */
+/* Generates and appends pagination buttons with functionality
+   Takes array of html elements as an argument
+*/
 const appendPageLinks = (list) => {
    const pageTotal = Math.ceil(list.length / 10)
    const mainDiv = document.querySelector('.page')
@@ -83,27 +87,25 @@ const searchStudent = (request) => {
       }
    }
 
-   const noResultsMessage = document.createElement('p')
-   noResultsMessage.textContent = 'no results'
    const divRemove = document.querySelector('div.pagination')
-   const divContainer = document.querySelector('div.page-header')
-   const lastElement = divContainer.lastElementChild
    if (studentsFound.length > 0) {
       //Displays found students
       showPage(studentsFound, 1)
       //deletes div with all page links
       divRemove.remove()
       appendPageLinks(studentsFound)
-      divContainer.removeChild()
+      noResultsMessage.style.display = 'none'
    } else {
-      //Displays message when no students was found
       divRemove.remove()
       appendPageLinks(studentsFound)
+      //Displays message when no students were found
+      noResultsMessage.style.display = 'block'
+
    }
 }
 
 
-/* Displays search input */
+/* Displays search input with functionality */
 const showSearchInput = () => {
    const containerDiv = document.querySelector('.page-header')
    const studentSearchDiv = document.createElement('div')
@@ -129,6 +131,25 @@ const showSearchInput = () => {
    })
 }
 
+/*
+Generates an h4 tag with a message to display,
+if no students were found and sets the display to 'none'.
+The searchStudent function changes display property of message depending on the search results
+ */
+const noResultsMessage = document.createElement('h4')
+const generateNoResultsMessage = () => {
+   noResultsMessage.style.fontSize = '16px'
+   noResultsMessage.style.fontWeight = 'bold'
+   noResultsMessage.style.color = 'gray'
+   noResultsMessage.style.textTransform = 'uppercase'
+   noResultsMessage.style.textAlign = 'center'
+   noResultsMessage.textContent = 'No results have been found.'
+   const divContainer = document.querySelector('div.page')
+   divContainer.appendChild(noResultsMessage)
+   noResultsMessage.style.display = 'none'
+}
+
+generateNoResultsMessage()
 showPage(listItems, 1)
 appendPageLinks(listItems)
 showSearchInput()
