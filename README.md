@@ -1,5 +1,5 @@
 # List_Pagination_and_Filtering
- This project uses pagination to enhance the usability of a web page.
+ This project uses JavaScript based pagination to enhance the usability of a web page.
  Displays 10 names at a time with a navigation system - a series of links at the bottom of the page, to let users click through the other student entries, 10 at a time or less depending on quantity.
  Project uses a 'progressive enhancement'. - The page still displays the students' names without Javascript.
 
